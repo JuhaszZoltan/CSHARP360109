@@ -15,20 +15,27 @@ namespace NepessegGUI
 
         private void BtnMentesClick(object? sender, EventArgs e)
         {
-            int nepesseg = int.Parse(txtNepesseg.Text);
-            int fvLakossag = int.Parse(txtNepesseg.Text);
-            int terulet = int.Parse(txtTerulet.Text);
-
-            if (fvLakossag > nepesseg)
+            try
             {
-                lblInfo.Text = "A fõváros lakossága nem lehet nagyobb a népességnél!";
-                txtFovarosLakossag.Text = $"{nepesseg}";
-                return;
-            }
+                int nepesseg = int.Parse(txtNepesseg.Text);
+                int fvLakossag = int.Parse(txtFovarosLakossag.Text);
+                int terulet = int.Parse(txtTerulet.Text);
 
-            using StreamWriter sw = new(OutputPath, true, Encoding.UTF8);
-            sw.WriteLine($"{txtOrszagNev.Text};{terulet};{nepesseg};{txtFovaros.Text}");
-            lblInfo.Text = "A mentés sikeres!";
+                if (fvLakossag > nepesseg)
+                {
+                    lblInfo.Text = "A fõváros lakossága nem lehet nagyobb a népességnél!";
+                    txtFovarosLakossag.Text = $"{nepesseg}";
+                    return;
+                }
+
+                using StreamWriter sw = new(OutputPath, true, Encoding.UTF8);
+                sw.WriteLine($"{txtOrszagNev.Text};{terulet};{nepesseg};{txtFovaros.Text};{fvLakossag}");
+                lblInfo.Text = "A mentés sikeres!";
+            }
+            catch(Exception)
+            {
+                lblInfo.Text = "nem megfelelõ számformûátum!";
+            }
         }
 
         private void BtnKilepesClick(object? sender, EventArgs e) 
